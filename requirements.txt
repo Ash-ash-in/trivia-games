@@ -1,0 +1,25 @@
+# Web framework
+fastapi
+uvicorn[standard]
+
+# Database
+sqlalchemy
+psycopg2-binary
+alembic
+
+# Data validation
+pydantic
+
+# Scraping
+requests
+beautifulsoup4
+lxml
+
+# Data processing
+pandas
+
+# API clients
+cinemagoer   # IMDb
+
+# Utilities
+python-dotenv

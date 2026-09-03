@@ -1,0 +1,599 @@
+<title>GitHub Guide for Tammy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --bg: #F6F7FB;
+    --surface: #FFFFFF;
+    --surface-alt: #F0F2F9;
+    --border: #DDE1EE;
+    --text: #1B2035;
+    --text-muted: #5C6480;
+    --text-faint: #9299B0;
+    --accent: #4C6EF5;
+    --accent-soft: #EDF0FF;
+    --accent-text: #2F4AC0;
+    --highlight-bg: #FFF9C4;
+    --highlight-border: #F0CC00;
+    --caution-bg: #FFF3E0;
+    --caution-border: #FFB74D;
+    --ok-bg: #E8F5E9;
+    --ok-border: #66BB6A;
+    --mono: 'DM Mono', monospace;
+    --radius: 8px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #11131D;
+      --surface: #1A1E2E;
+      --surface-alt: #20253A;
+      --border: #2A3050;
+      --text: #E6EAF5;
+      --text-muted: #8892B0;
+      --text-faint: #5A6280;
+      --accent: #748FFC;
+      --accent-soft: #1C2448;
+      --accent-text: #9BAEFF;
+      --highlight-bg: #2A2600;
+      --highlight-border: #998000;
+      --caution-bg: #2A1A00;
+      --caution-border: #B36A00;
+      --ok-bg: #0A2010;
+      --ok-border: #2E7D32;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #11131D;
+    --surface: #1A1E2E;
+    --surface-alt: #20253A;
+    --border: #2A3050;
+    --text: #E6EAF5;
+    --text-muted: #8892B0;
+    --text-faint: #5A6280;
+    --accent: #748FFC;
+    --accent-soft: #1C2448;
+    --accent-text: #9BAEFF;
+    --highlight-bg: #2A2600;
+    --highlight-border: #998000;
+    --caution-bg: #2A1A00;
+    --caution-border: #B36A00;
+    --ok-bg: #0A2010;
+    --ok-border: #2E7D32;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--bg);
+    min-height: 100vh;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  .page-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  @media (max-width: 760px) {
+    .page-wrap {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .sidebar { display: none; }
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 32px;
+  }
+
+  .sidebar-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+  }
+
+  .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sidebar nav a {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .sidebar nav a:hover,
+  .sidebar nav a:focus {
+    background: var(--surface-alt);
+    color: var(--text);
+    outline: none;
+  }
+
+  .sidebar nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-text);
+    font-weight: 500;
+  }
+
+  .doc-header {
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .doc-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .doc-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.25;
+    text-wrap: balance;
+    margin-bottom: 10px;
+  }
+
+  .doc-header p {
+    font-size: 15.5px;
+    color: var(--text-muted);
+    max-width: 560px;
+  }
+
+  .section {
+    margin-bottom: 48px;
+    scroll-margin-top: 32px;
+  }
+
+  .section h2 {
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-wrap: balance;
+  }
+
+  .section-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .section p {
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    max-width: 640px;
+  }
+
+  .section p:last-child { margin-bottom: 0; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 14px;
+  }
+
+  .card:last-child { margin-bottom: 0; }
+
+  .card h3 {
+    font-size: 14.5px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 16px 0;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    position: relative;
+  }
+
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 13px;
+    top: 28px;
+    bottom: -8px;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .step + .step {
+    margin-top: 8px;
+  }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent-text);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-body {
+    padding: 3px 0 16px;
+  }
+
+  .step-body strong {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .step-body p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 0 !important;
+  }
+
+  .callout {
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 16px 0;
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .callout-icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+  .callout-body { color: var(--text-muted); }
+  .callout-body strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 2px; }
+
+  .callout.tip { background: var(--highlight-bg); border: 1px solid var(--highlight-border); }
+  .callout.caution { background: var(--caution-bg); border: 1px solid var(--caution-border); }
+  .callout.ok { background: var(--ok-bg); border: 1px solid var(--ok-border); }
+
+  .ui-label {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .glossary {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .glossary-term {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent-text);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-alt);
+    display: flex;
+    align-items: center;
+  }
+
+  .glossary-def {
+    font-size: 14px;
+    color: var(--text-muted);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+  }
+
+  .glossary-term:last-of-type,
+  .glossary-def:last-child {
+    border-bottom: none;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  .doc-footer {
+    font-size: 13px;
+    color: var(--text-faint);
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="page-wrap">
+  <aside class="sidebar">
+    <div class="sidebar-label">On this page</div>
+    <nav id="sidebar-nav">
+      <a href="#what-is-github">What is GitHub?</a>
+      <a href="#your-role">Your role</a>
+      <a href="#view-files">Viewing files</a>
+      <a href="#see-changes">Seeing what changed</a>
+      <a href="#issues">Issues &amp; tickets</a>
+      <a href="#download">Downloading a file</a>
+      <a href="#glossary">Glossary</a>
+    </nav>
+  </aside>
+
+  <main>
+    <header class="doc-header">
+      <div class="doc-eyebrow">TriviaGames · Reference Guide</div>
+      <h1>GitHub for Tammy</h1>
+      <p>Everything you need to know to use GitHub on this project — no coding required. Keep this page bookmarked.</p>
+    </header>
+
+    <section class="section" id="what-is-github">
+      <h2><span class="section-icon">🏠</span> What is GitHub?</h2>
+      <p>GitHub is where all the project's code and files live. Think of it like a shared Google Drive for code — but with one important extra feature: it keeps a complete history of every change ever made, who made it, and why.</p>
+      <p>You won't need to understand any of the code itself. Your job on GitHub is to <strong>see what's happening</strong>, <strong>review notes</strong>, and occasionally <strong>leave feedback</strong> on specific issues.</p>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>The project lives here:</strong>
+          github.com/Ash-ash-in/trivia-games — bookmark this link. You'll come back to it often.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="your-role">
+      <h2><span class="section-icon">🎨</span> Your role on GitHub</h2>
+      <p>Here's what you'll actually use GitHub for on this project:</p>
+      <div class="card">
+        <h3>Reviewing what's been built</h3>
+        <p>After Ash completes a stage, you can browse the files to see what was added and read Ash's notes explaining each change.</p>
+      </div>
+      <div class="card">
+        <h3>Reading and commenting on issues</h3>
+        <p>Issues are like a to-do list and discussion board. Some issues will be flagged specifically for your review — for example, uncertain facts that need a human Simpsons expert to resolve.</p>
+      </div>
+      <div class="card">
+        <h3>Signing off on completed stages</h3>
+        <p>At the end of each project stage, Ash will point you to a specific issue or page to confirm you're happy before work moves on.</p>
+      </div>
+      <div class="callout ok">
+        <span class="callout-icon">✅</span>
+        <div class="callout-body">
+          <strong>You will never need to edit code.</strong> If you're ever looking at a screen full of unfamiliar symbols, you've gone somewhere you don't need to be — close the tab and ask Ash.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="view-files">
+      <h2><span class="section-icon">📁</span> Viewing project files</h2>
+      <p>The main page of the repo shows you a list of folders and files, like a file explorer. You can click into any folder or file to read it.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Go to the project page</strong>
+            <p>Open github.com/Ash-ash-in/trivia-games in your browser.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Browse the folders</strong>
+            <p>You'll see folders like <span class="ui-label">docs</span> and <span class="ui-label">data</span>. Click any folder to open it, and click any file to read it.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Look for the docs folder first</strong>
+            <p>The <span class="ui-label">docs</span> folder contains plain-English guides written for both of us. That's your home base.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">Use the breadcrumb trail at the top of any page to find your way back — it shows you exactly where you are in the folder structure.</div>
+      </div>
+    </section>
+
+    <section class="section" id="see-changes">
+      <h2><span class="section-icon">📋</span> Seeing what changed recently</h2>
+      <p>Every time Ash saves new work, it's recorded as a "commit" — a snapshot with a short note explaining what changed. You can read these like a project diary.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Find the commits list</strong>
+            <p>On the main project page, look for a clock icon near the top right of the file list. It shows the number of commits. Click it.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Read the commit messages</strong>
+            <p>Each entry has a short title (the commit message) and a date. These are written in plain English and tell you what Ash was working on.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Click a commit to see the detail</strong>
+            <p>You'll see green lines (added content) and red lines (removed content). You don't need to understand the code — the commit message at the top explains the purpose.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="issues">
+      <h2><span class="section-icon">🎫</span> Issues &amp; tickets</h2>
+      <p>The <strong>Issues</strong> tab is the project's built-in discussion board. It's used for tracking tasks, flagging uncertain facts, and leaving feedback. Think of each issue as a Post-it note on a shared noticeboard.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Click the Issues tab</strong>
+            <p>It's near the top of the project page, next to <span class="ui-label">Code</span> and <span class="ui-label">Pull requests</span>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Look for issues tagged "needs-tammy"</strong>
+            <p>Ash will label issues that need your attention with a coloured tag. Click the issue title to open it and read the full context.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Leave a comment to respond</strong>
+            <p>Scroll to the bottom of the issue. There's a text box — type your response and click <span class="ui-label">Comment</span>. You can use plain English, no formatting needed.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Close the issue when resolved</strong>
+            <p>If you've answered the question or confirmed the fact, click <span class="ui-label">Close issue</span> at the bottom. Ash will re-open it if more is needed.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout caution">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Accuracy issues are high priority.</strong> When Ash flags an issue as a fact that needs verifying, treat it as urgent — a wrong answer on the quiz site loses us players permanently.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="download">
+      <h2><span class="section-icon">⬇️</span> Downloading a file</h2>
+      <p>If Ash creates a document or image you want to save to your computer:</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Open the file</strong>
+            <p>Navigate to it through the folders and click the filename.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Click the download button</strong>
+            <p>Look for a small download icon (an arrow pointing down) near the top-right of the file view, or right-click and choose "Save as".</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="section" id="glossary">
+      <h2><span class="section-icon">📖</span> Glossary</h2>
+      <p>A quick reference for the words you'll see on GitHub most often.</p>
+      <div class="glossary">
+        <div class="glossary-term">repository</div>
+        <div class="glossary-def">The project's home on GitHub — all files, history, and discussions in one place. Often called a "repo" for short.</div>
+
+        <div class="glossary-term">commit</div>
+        <div class="glossary-def">A saved snapshot of work. Like hitting Save, but it also stores a note about what changed and creates a permanent record.</div>
+
+        <div class="glossary-term">branch</div>
+        <div class="glossary-def">A separate copy of the project where Ash can try something new without affecting the main version. Changes get merged back when they're ready.</div>
+
+        <div class="glossary-term">main</div>
+        <div class="glossary-def">The official, current version of the project. What's on <span class="ui-label">main</span> is what's live (or will be).</div>
+
+        <div class="glossary-term">issue</div>
+        <div class="glossary-def">A discussion thread attached to the project. Used for tasks, bug reports, fact-checking requests, or any question that needs a decision.</div>
+
+        <div class="glossary-term">label</div>
+        <div class="glossary-def">A coloured tag on an issue that categorises it — for example "needs-tammy", "bug", or "accuracy".</div>
+
+        <div class="glossary-term">README</div>
+        <div class="glossary-def">A plain-English introduction to the project, shown automatically on the main page. Start here if you're ever lost.</div>
+      </div>
+    </section>
+
+    <footer class="doc-footer">
+      TriviaGames project · Last updated September 2026 · Questions? Ask Ash.
+    </footer>
+  </main>
+</div>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const links = document.querySelectorAll('#sidebar-nav a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`#sidebar-nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
