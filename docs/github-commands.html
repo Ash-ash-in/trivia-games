@@ -731,14 +731,97 @@ git commit -m "add fandom wiki scraper skeleton"</div>
 
       <div class="scenario" style="margin-top:14px">
         <div class="scenario-header">
-          <div class="scenario-title">Finishing and merging a branch</div>
-          <div class="scenario-subtitle">Stage is complete and tested — ready to merge into main</div>
+          <div class="scenario-title">Submitting your work for review (Pull Request)</div>
+          <div class="scenario-subtitle">Your branch is ready — open a PR so Ash can review and approve it before it goes into main</div>
         </div>
         <div class="scenario-body">
           <div class="scenario-step">
             <div class="scenario-num">1</div>
             <div class="scenario-content">
-              <span class="scenario-label">Switch back to main and pull any changes</span>
+              <span class="scenario-label">Push your branch to GitHub <span style="font-size:11px;font-weight:400;color:var(--text-faint)">(terminal)</span></span>
+              <div class="scenario-cmd">git push -u origin your-branch-name</div>
+              <span class="scenario-note">If you've pushed before, plain <code style="font-family:var(--mono);font-size:11.5px">git push</code> is enough.</span>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">2</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Open a Pull Request <span style="font-size:11px;font-weight:400;color:var(--text-faint)">(GitHub website)</span></span>
+              <span class="scenario-note">Go to github.com/Ash-ash-in/trivia-games. You'll see a yellow banner: <em>"Compare &amp; pull request"</em> — click it. If the banner isn't there, click the <strong>Pull requests</strong> tab → <strong>New pull request</strong>.</span>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">3</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Fill in the PR details <span style="font-size:11px;font-weight:400;color:var(--text-faint)">(GitHub website)</span></span>
+              <span class="scenario-note">Give it a clear title (e.g. "Add Fandom wiki scraper"). Add a short description of what you did and anything Ash should know. On the right-hand side, under <strong>Reviewers</strong>, click the gear icon and select Ash.</span>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">4</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Click "Create pull request" and wait <span style="font-size:11px;font-weight:400;color:var(--text-faint)">(GitHub website)</span></span>
+              <span class="scenario-note">GitHub will notify Ash. The PR page shows a yellow "Review required" status — this is normal. You cannot merge until Ash approves.</span>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">5</div>
+            <div class="scenario-content">
+              <span class="scenario-label">After approval — merge <span style="font-size:11px;font-weight:400;color:var(--text-faint)">(GitHub website)</span></span>
+              <span class="scenario-note">Once Ash approves, a green <strong>"Merge pull request"</strong> button appears. Click it, then <strong>"Confirm merge"</strong>. Your changes are now in main. GitHub will offer to delete the branch — click <strong>"Delete branch"</strong> to keep things tidy.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario" style="margin-top:14px">
+        <div class="scenario-header">
+          <div class="scenario-title">Reviewing and approving a PR (Ash)</div>
+          <div class="scenario-subtitle">Someone has opened a PR and is waiting for your sign-off</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-step">
+            <div class="scenario-num">1</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Open the PR <span style="font-size:11px;font-weight:400;color:var(--text-faint)">(GitHub website)</span></span>
+              <span class="scenario-note">Click the <strong>Pull requests</strong> tab on the repo. Open the PR. The <strong>Files changed</strong> tab shows exactly what was added or removed — green lines are additions, red are deletions.</span>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">2</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Leave comments if needed <span style="font-size:11px;font-weight:400;color:var(--text-faint)">(GitHub website)</span></span>
+              <span class="scenario-note">Click any line in <strong>Files changed</strong> to leave an inline comment. Use the <strong>Conversation</strong> tab for general notes. The author will be notified and can push fixes to the same branch — the PR updates automatically.</span>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">3</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Approve and merge <span style="font-size:11px;font-weight:400;color:var(--text-faint)">(GitHub website)</span></span>
+              <span class="scenario-note">Click <strong>Review changes</strong> (top right of Files changed) → select <strong>Approve</strong> → <strong>Submit review</strong>. Then scroll down to the green merge button and confirm. Delete the branch when prompted.</span>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">4</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Pull the updated main locally <span style="font-size:11px;font-weight:400;color:var(--text-faint)">(terminal)</span></span>
+              <div class="scenario-cmd">git switch main
+git pull</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario" style="margin-top:14px">
+        <div class="scenario-header">
+          <div class="scenario-title">Merging directly into main (Ash only)</div>
+          <div class="scenario-subtitle">Ash can bypass the PR requirement as repo admin — use for small, low-risk changes</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-step">
+            <div class="scenario-num">1</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Switch to main and pull</span>
               <div class="scenario-cmd">git switch main
 git pull</div>
             </div>
@@ -746,23 +829,17 @@ git pull</div>
           <div class="scenario-step">
             <div class="scenario-num">2</div>
             <div class="scenario-content">
-              <span class="scenario-label">Merge the branch</span>
-              <div class="scenario-cmd">git merge stage-3-scrapers</div>
+              <span class="scenario-label">Merge your branch</span>
+              <div class="scenario-cmd">git merge your-branch-name</div>
             </div>
           </div>
           <div class="scenario-step">
             <div class="scenario-num">3</div>
             <div class="scenario-content">
-              <span class="scenario-label">Push main to GitHub</span>
-              <div class="scenario-cmd">git push</div>
-            </div>
-          </div>
-          <div class="scenario-step">
-            <div class="scenario-num">4</div>
-            <div class="scenario-content">
-              <span class="scenario-label">Clean up the branch</span>
-              <div class="scenario-cmd">git branch -d stage-3-scrapers
-git push origin --delete stage-3-scrapers</div>
+              <span class="scenario-label">Push and clean up</span>
+              <div class="scenario-cmd">git push
+git branch -d your-branch-name
+git push origin --delete your-branch-name</div>
             </div>
           </div>
         </div>
