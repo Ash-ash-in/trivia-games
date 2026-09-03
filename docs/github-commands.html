@@ -1,0 +1,818 @@
+<title>GitHub Commands</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --bg: #F6F7FB;
+    --surface: #FFFFFF;
+    --surface-alt: #F0F2F9;
+    --border: #DDE1EE;
+    --text: #1B2035;
+    --text-muted: #5C6480;
+    --text-faint: #9299B0;
+    --accent: #4C6EF5;
+    --accent-soft: #EDF0FF;
+    --accent-text: #2F4AC0;
+    --highlight-bg: #FFF9C4;
+    --highlight-border: #F0CC00;
+    --caution-bg: #FFF3E0;
+    --caution-border: #FFB74D;
+    --ok-bg: #E8F5E9;
+    --ok-border: #66BB6A;
+    --code-bg: #1B2035;
+    --code-text: #C8D0EA;
+    --code-comment: #5C6480;
+    --code-accent: #748FFC;
+    --mono: 'DM Mono', monospace;
+    --radius: 8px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #11131D;
+      --surface: #1A1E2E;
+      --surface-alt: #20253A;
+      --border: #2A3050;
+      --text: #E6EAF5;
+      --text-muted: #8892B0;
+      --text-faint: #5A6280;
+      --accent: #748FFC;
+      --accent-soft: #1C2448;
+      --accent-text: #9BAEFF;
+      --highlight-bg: #2A2600;
+      --highlight-border: #998000;
+      --caution-bg: #2A1A00;
+      --caution-border: #B36A00;
+      --ok-bg: #0A2010;
+      --ok-border: #2E7D32;
+      --code-bg: #0D0F18;
+      --code-text: #C8D0EA;
+      --code-comment: #4A5270;
+      --code-accent: #748FFC;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #11131D;
+    --surface: #1A1E2E;
+    --surface-alt: #20253A;
+    --border: #2A3050;
+    --text: #E6EAF5;
+    --text-muted: #8892B0;
+    --text-faint: #5A6280;
+    --accent: #748FFC;
+    --accent-soft: #1C2448;
+    --accent-text: #9BAEFF;
+    --highlight-bg: #2A2600;
+    --highlight-border: #998000;
+    --caution-bg: #2A1A00;
+    --caution-border: #B36A00;
+    --ok-bg: #0A2010;
+    --ok-border: #2E7D32;
+    --code-bg: #0D0F18;
+    --code-text: #C8D0EA;
+    --code-comment: #4A5270;
+    --code-accent: #748FFC;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--bg);
+    min-height: 100vh;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  .page-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  @media (max-width: 760px) {
+    .page-wrap { grid-template-columns: 1fr; gap: 0; }
+    .sidebar { display: none; }
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 32px;
+  }
+
+  .sidebar-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+  }
+
+  .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sidebar nav a {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .sidebar nav a:hover,
+  .sidebar nav a:focus {
+    background: var(--surface-alt);
+    color: var(--text);
+    outline: none;
+  }
+
+  .sidebar nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-text);
+    font-weight: 500;
+  }
+
+  .sidebar-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 12px 0;
+  }
+
+  .sidebar-back {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-faint);
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+  }
+
+  .sidebar-back:hover { color: var(--accent); }
+
+  .doc-header {
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .doc-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .doc-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.25;
+    text-wrap: balance;
+    margin-bottom: 10px;
+  }
+
+  .doc-header p {
+    font-size: 15.5px;
+    color: var(--text-muted);
+    max-width: 560px;
+  }
+
+  .section {
+    margin-bottom: 52px;
+    scroll-margin-top: 32px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .section-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .section h2 {
+    font-size: 19px;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  .section-intro {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    max-width: 640px;
+    font-size: 14.5px;
+  }
+
+  /* Command blocks */
+  .cmd-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .cmd-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .cmd-meta {
+    padding: 14px 18px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .cmd-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .cmd-desc {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .cmd-block {
+    background: var(--code-bg);
+    padding: 12px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cmd-line {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .cmd-prompt {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--code-accent);
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .cmd-text {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--code-text);
+    white-space: pre;
+  }
+
+  .cmd-comment {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--code-comment);
+    padding-left: 26px;
+    margin-top: -2px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .cmd-placeholder {
+    color: var(--code-accent);
+  }
+
+  /* Scenario blocks */
+  .scenario {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .scenario-header {
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-alt);
+  }
+
+  .scenario-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .scenario-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .scenario-body {
+    padding: 0;
+  }
+
+  .scenario-step {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .scenario-step:last-child { border-bottom: none; }
+
+  .scenario-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent-text);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .scenario-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .scenario-label {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .scenario-cmd {
+    background: var(--code-bg);
+    border-radius: 5px;
+    padding: 7px 12px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--code-text);
+    white-space: pre;
+  }
+
+  .scenario-note {
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+
+  /* Callouts */
+  .callout {
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 16px 0;
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .callout-icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+  .callout-body { color: var(--text-muted); }
+  .callout-body strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 2px; }
+
+  .callout.tip { background: var(--highlight-bg); border: 1px solid var(--highlight-border); }
+  .callout.caution { background: var(--caution-bg); border: 1px solid var(--caution-border); }
+  .callout.ok { background: var(--ok-bg); border: 1px solid var(--ok-border); }
+
+  .ui-label {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  .doc-footer {
+    font-size: 13px;
+    color: var(--text-faint);
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+</style>
+
+<div class="page-wrap">
+  <aside class="sidebar">
+    <a href="github-guide.html" class="sidebar-back">← Introduction</a>
+    <hr class="sidebar-divider">
+    <div class="sidebar-label">On this page</div>
+    <nav id="sidebar-nav">
+      <a href="#commits">Saving your work</a>
+      <a href="#branches">Branches</a>
+      <a href="#mistakes">Fixing mistakes</a>
+      <a href="#scenarios">Common scenarios</a>
+    </nav>
+  </aside>
+
+  <main>
+    <header class="doc-header">
+      <div class="doc-eyebrow">TriviaGames · GitHub Reference</div>
+      <h1>Commands for routine use</h1>
+      <p>The commands you'll use day-to-day: saving work, managing branches, and recovering from mistakes. Open a terminal in the project folder to run any of these.</p>
+    </header>
+
+    <!-- Saving your work -->
+    <section class="section" id="commits">
+      <div class="section-header">
+        <span class="section-icon">💾</span>
+        <h2>Saving your work (commits)</h2>
+      </div>
+      <p class="section-intro">A commit is a permanent snapshot. You stage the files you want to include, write a short message explaining what changed, then save. Think of it as "Save + label + submit to the archive."</p>
+
+      <div class="cmd-group">
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">See what's changed</span>
+            <span class="cmd-desc">Always start here — shows which files are new, modified, or deleted before you commit anything.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git status</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Stage files for the commit</span>
+            <span class="cmd-desc">Choose what to include. Stage specific files, or stage everything that's changed.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git add <span class="cmd-placeholder">filename.py</span></span></div>
+            <div class="cmd-comment"># stage one specific file</div>
+            <div class="cmd-line" style="margin-top:6px"><span class="cmd-prompt">$</span><span class="cmd-text">git add .</span></div>
+            <div class="cmd-comment"># stage everything changed (use with care — run git status first)</div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Create the commit</span>
+            <span class="cmd-desc">Write a short, plain-English message saying what changed and why. Keep it to one sentence.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git commit -m "<span class="cmd-placeholder">add character scraper for Fandom wiki</span>"</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Push to GitHub</span>
+            <span class="cmd-desc">Sends your committed changes up to the remote repository so the team can see them.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git push</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Commit little and often.</strong> Small, focused commits are easier to review and much easier to undo if something goes wrong. One clear change per commit beats a massive catch-all commit.
+        </div>
+      </div>
+    </section>
+
+    <!-- Branches -->
+    <section class="section" id="branches">
+      <div class="section-header">
+        <span class="section-icon">🌿</span>
+        <h2>Branches</h2>
+      </div>
+      <p class="section-intro">A branch is a safe copy of the project to work in. Changes on a branch don't affect <span class="ui-label">main</span> until you deliberately merge them. Use a branch for any piece of work that takes more than one sitting.</p>
+
+      <div class="cmd-group">
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Create a new branch and switch to it</span>
+            <span class="cmd-desc">Name branches by what you're working on, using hyphens. Always branch off from <span class="ui-label">main</span>.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git switch -c <span class="cmd-placeholder">stage-2-database</span></span></div>
+            <div class="cmd-comment"># creates the branch and moves you onto it in one step</div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">See which branch you're on</span>
+            <span class="cmd-desc">The branch with an asterisk (*) is the one you're currently working on.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git branch</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Switch to an existing branch</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git switch <span class="cmd-placeholder">stage-2-database</span></span></div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Push a new branch to GitHub</span>
+            <span class="cmd-desc">The first time you push a new branch, you need to tell git where it lives remotely.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git push -u origin <span class="cmd-placeholder">stage-2-database</span></span></div>
+            <div class="cmd-comment"># after this, plain "git push" works on that branch</div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Merge a branch into main</span>
+            <span class="cmd-desc">Switch to main first, then merge. Do this when the work on the branch is complete and tested.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git switch main</span></div>
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git merge <span class="cmd-placeholder">stage-2-database</span></span></div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Delete a branch after merging</span>
+            <span class="cmd-desc">Once merged, the branch is no longer needed. Clean it up locally and on GitHub.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git branch -d <span class="cmd-placeholder">stage-2-database</span></span></div>
+            <div class="cmd-comment"># local delete</div>
+            <div class="cmd-line" style="margin-top:6px"><span class="cmd-prompt">$</span><span class="cmd-text">git push origin --delete <span class="cmd-placeholder">stage-2-database</span></span></div>
+            <div class="cmd-comment"># remote delete</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout caution">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Never commit directly to main.</strong> Always work on a branch. The <span class="ui-label">main</span> branch is the live, tested version — treat it as sacred.
+        </div>
+      </div>
+    </section>
+
+    <!-- Fixing mistakes -->
+    <section class="section" id="mistakes">
+      <div class="section-header">
+        <span class="section-icon">🔧</span>
+        <h2>Fixing mistakes</h2>
+      </div>
+      <p class="section-intro">Git keeps a full history, so very little is truly lost. The right command depends on how far along the mistake got.</p>
+
+      <div class="cmd-group">
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Unstage a file (before committing)</span>
+            <span class="cmd-desc">You ran <code style="font-family:var(--mono);font-size:12.5px">git add</code> but changed your mind about including a file in the next commit.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git restore --staged <span class="cmd-placeholder">filename.py</span></span></div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Discard changes to a file (before committing)</span>
+            <span class="cmd-desc">Throws away all edits to a file and restores it to how it was at the last commit. <strong>This cannot be undone.</strong></span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git restore <span class="cmd-placeholder">filename.py</span></span></div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Undo the last commit (keep the changes)</span>
+            <span class="cmd-desc">Removes the commit but leaves your file edits intact so you can fix the message or stage different files.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git reset --soft HEAD~1</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Safely undo a commit that's already been pushed</span>
+            <span class="cmd-desc">Creates a new commit that reverses the effects of a previous one — the safe option when the mistake is already on GitHub. Find the commit hash with <code style="font-family:var(--mono);font-size:12.5px">git log</code>.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git log --oneline</span></div>
+            <div class="cmd-comment"># find the hash of the commit you want to undo (e.g. a3f1c22)</div>
+            <div class="cmd-line" style="margin-top:6px"><span class="cmd-prompt">$</span><span class="cmd-text">git revert <span class="cmd-placeholder">a3f1c22</span></span></div>
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git push</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-card">
+          <div class="cmd-meta">
+            <span class="cmd-title">Stash changes temporarily</span>
+            <span class="cmd-desc">Saves your in-progress work without committing it, so you can switch to another branch and come back later.</span>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-line"><span class="cmd-prompt">$</span><span class="cmd-text">git stash</span></div>
+            <div class="cmd-comment"># saves and clears your working changes</div>
+            <div class="cmd-line" style="margin-top:6px"><span class="cmd-prompt">$</span><span class="cmd-text">git stash pop</span></div>
+            <div class="cmd-comment"># brings them back when you're ready</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout ok">
+        <span class="callout-icon">✅</span>
+        <div class="callout-body">
+          <strong>When in doubt, don't guess.</strong> Run <code style="font-family:var(--mono);font-size:12.5px">git status</code> first to understand the current state, then decide. Most mistakes are easy to fix — but the wrong recovery command can make things worse.
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Common scenarios -->
+    <section class="section" id="scenarios">
+      <div class="section-header">
+        <span class="section-icon">🗺️</span>
+        <h2>Common scenarios end-to-end</h2>
+      </div>
+      <p class="section-intro">Full command sequences for the most frequent situations.</p>
+
+      <div class="scenario">
+        <div class="scenario-header">
+          <div class="scenario-title">Starting a new piece of work</div>
+          <div class="scenario-subtitle">Beginning a new stage or feature</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-step">
+            <div class="scenario-num">1</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Make sure main is up to date</span>
+              <div class="scenario-cmd">git switch main
+git pull</div>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">2</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Create and switch to a new branch</span>
+              <div class="scenario-cmd">git switch -c stage-3-scrapers</div>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">3</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Do your work, then commit as you go</span>
+              <div class="scenario-cmd">git add .
+git commit -m "add fandom wiki scraper skeleton"</div>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">4</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Push the branch to GitHub</span>
+              <div class="scenario-cmd">git push -u origin stage-3-scrapers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario" style="margin-top:14px">
+        <div class="scenario-header">
+          <div class="scenario-title">Finishing and merging a branch</div>
+          <div class="scenario-subtitle">Stage is complete and tested — ready to merge into main</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-step">
+            <div class="scenario-num">1</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Switch back to main and pull any changes</span>
+              <div class="scenario-cmd">git switch main
+git pull</div>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">2</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Merge the branch</span>
+              <div class="scenario-cmd">git merge stage-3-scrapers</div>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">3</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Push main to GitHub</span>
+              <div class="scenario-cmd">git push</div>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">4</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Clean up the branch</span>
+              <div class="scenario-cmd">git branch -d stage-3-scrapers
+git push origin --delete stage-3-scrapers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario" style="margin-top:14px">
+        <div class="scenario-header">
+          <div class="scenario-title">I committed something I shouldn't have</div>
+          <div class="scenario-subtitle">The bad commit hasn't been pushed yet</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-step">
+            <div class="scenario-num">1</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Undo the commit, keep the file changes</span>
+              <div class="scenario-cmd">git reset --soft HEAD~1</div>
+            </div>
+          </div>
+          <div class="scenario-step">
+            <div class="scenario-num">2</div>
+            <div class="scenario-content">
+              <span class="scenario-label">Fix whatever was wrong, then re-commit</span>
+              <div class="scenario-cmd">git add .
+git commit -m "correct description of what this actually does"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="doc-footer">
+      <span>TriviaGames project · Last updated September 2026 · Questions? Ask Ash.</span>
+      <a href="github-guide.html" style="color:var(--accent); text-decoration:none; font-weight:500; font-size:13px;">← Introduction</a>
+    </footer>
+  </main>
+</div>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const links = document.querySelectorAll('#sidebar-nav a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`#sidebar-nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>

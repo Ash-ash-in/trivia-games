@@ -37,4 +37,5 @@ See [`docs/setup.md`](docs/setup.md) for local environment setup instructions.
 ## Docs
 
 - [`docs/project-plan.md`](docs/project-plan.md) — full project plan and stage breakdown
-- [`docs/tammy-github-guide.html`](docs/tammy-github-guide.html) — GitHub reference for Tammy
+- [`docs/github-guide.html`](docs/github-guide.html) — GitHub introduction (what it is, how to use it)
+- [`docs/github-commands.html`](docs/github-commands.html) — GitHub commands reference (commits, branches, fixing mistakes)
